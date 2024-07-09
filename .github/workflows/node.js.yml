@@ -23,3 +23,5 @@ jobs:
 
             - name: Add a comment to the PR
               run: gh pr comment ${{ github.event.pull_request.number }} --body "Uh oh, the tests failed!"
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
