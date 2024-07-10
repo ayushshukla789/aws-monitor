@@ -9,9 +9,17 @@ on:
 jobs:
     comment-on-pr:
         runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [20.x]
+                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
         steps:
-            - uses: actions/github-script@v6
+            - uses: actions/checkout@v3
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
               with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  script: |
-                      echo "hello World"
+                  node-version: ${{ matrix.node-version }}
+                  cache: 'npm'
+            - run: npm ci
