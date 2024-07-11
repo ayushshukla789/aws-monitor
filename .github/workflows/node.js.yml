@@ -25,14 +25,7 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
             - run: npm ci
-            - run: echo ${{steps}}
-            - uses: actions/github-script@v6
-              with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  script: |
-                      github.rest.issues.createComment({
-                        issue_number: context.issue.number,
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        body: 'This is a comment added by the GitHub Actions workflow.'
-                      })
+            - name: Comment on PR
+              run: gh pr comment ${{ github.event.pull_request.number }} --body "E2E tests failed. Please check the logs."
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
