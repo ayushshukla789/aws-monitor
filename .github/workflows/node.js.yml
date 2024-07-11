@@ -26,6 +26,6 @@ jobs:
                   cache: 'npm'
             - run: npm ci
             - name: Comment on PR
-              run: gh pr comment ${{ github.event.pull_request.number }} --body "E2E tests failed. Please check the logs."
+              run: gh pr comment ${{ github.event.issue.number }} --body "E2E tests failed. Please check the logs."
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
