@@ -13,19 +13,15 @@ jobs:
             issues: write
             pull-requests: write
             contents: write
-        strategy:
-            matrix:
-                node-version: [20.x]
-                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         steps:
-            - uses: actions/checkout@v3
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v3
-              with:
-                  node-version: ${{ matrix.node-version }}
-                  cache: 'npm'
-            - run: npm ci
             - name: Comment on PR
               run: gh pr comment ${{ github.event.issue.number }} --body "E2E tests failed. Please check the logs."
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    emoji:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions-cool/emoji-helper@v1.0.0
+              with:
+                  type: 'comment'
+                  emoji: 'eyes'
